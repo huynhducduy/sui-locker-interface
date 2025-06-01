@@ -7,8 +7,9 @@ import {ErrorBoundary, type FallbackProps} from 'react-error-boundary'
 import invariant from 'tiny-invariant'
 import type {ReadonlyDeep} from 'type-fest'
 
-import {DEBUG, ENABLE_DEVTOOLS} from '@/constants/config'
+import {ENABLE_DEVTOOLS} from '@/constants/config'
 import Global from '@/Global'
+import { AuthProvider } from '@/lib/auth/AuthProvider'
 import {createQueryPersistOptions} from '@/queries/queries'
 import type {RouterContext} from '@/router'
 import skipTargetProps from '@/utils/a11y/skipTargetProps'
@@ -103,12 +104,14 @@ const RootRoute = memo(function RootRoute() {
             <QueryErrorBoundary>
               <VisuallyHidden strict {...skipTargetProps('top')} />
               <WalletProvider>
-                <HeadContent />
-                <Global />
-                <Outlet />
-                <DevTool>
-                  <Inspector />
-                </DevTool>
+                <AuthProvider>
+                  <HeadContent />
+                  <Global />
+                  <Outlet />
+                  <DevTool>
+                    <Inspector />
+                  </DevTool>
+                </AuthProvider>
               </WalletProvider>
             </QueryErrorBoundary>
             <DevTool>

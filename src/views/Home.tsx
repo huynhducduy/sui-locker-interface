@@ -15,11 +15,12 @@ import {
 import {Button} from '@/components/ui/button'
 import {VaultCard} from '@/components/vault/VaultCard'
 import {VaultModal} from '@/components/vault/VaultModal'
+import { ZkLoginSection } from '@/components/zklogin/ZkLoginSection'
+import { useAuth } from '@/lib/auth/AuthProvider'
 import useVaultMutation, { VaultMutationType } from '@/lib/locker/hooks/useVaultMutation'
 import useVaultsQuery from '@/lib/locker/hooks/useVaultsQuery'
 import type { Vault } from '@/lib/locker/types'
 import WalletButton from '@/lib/sui/components/WalletButton'
-import useIsConnected from '@/lib/sui/hooks/useIsConnected';
 
 interface EmptyStateProps {
   onCreateVault: () => void
@@ -28,7 +29,7 @@ interface EmptyStateProps {
 function WalletNotConnectedState() {
   return (
     <div className="text-center py-16">
-      <div className="max-w-md mx-auto space-y-6">
+      <div className="max-w-2xl mx-auto space-y-8">
         <div className="text-muted-foreground">
           <h2 className="text-2xl font-semibold mb-2">Welcome to SuiLocker</h2>
           <p className="text-lg">
@@ -36,18 +37,36 @@ function WalletNotConnectedState() {
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-6">
           <div className="p-4 bg-blue-50 rounded-lg text-left">
             <h3 className="font-medium text-blue-900 mb-2">Getting Started:</h3>
             <ul className="text-sm text-blue-800 space-y-1">
-              <li>• Connect your Sui wallet</li>
+              <li>• Connect your Sui wallet or use zkLogin</li>
               <li>• Create your first vault</li>
               <li>• Start storing encrypted data securely</li>
               <li>• Manage your data with full ownership</li>
             </ul>
           </div>
 
-          <WalletButton className="justify-center" />
+          <div className="grid md:grid-cols-2 gap-8 items-start">
+            {/* Traditional Wallet Connection */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Connect Wallet</h3>
+              <p className="text-sm text-muted-foreground">
+                Use your existing Sui wallet (Suiet, Sui Wallet, etc.)
+              </p>
+              <WalletButton className="justify-center w-full" />
+            </div>
+
+            {/* zkLogin Options */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Social Login (zkLogin)</h3>
+              <p className="text-sm text-muted-foreground">
+                Connect using zero-knowledge proofs with your social accounts
+              </p>
+              <ZkLoginSection />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -97,8 +116,7 @@ function VaultGrid({vaults, onEditVault, onDeleteVault}: VaultGridProps) {
 
 export default function Home() {
   const wallet = useWallet()
-  console.log(wallet.chain)
-  const isConnected = useIsConnected()
+  const { isConnected, address, method } = useAuth()
   const {data: vaults, isLoading, error} = useVaultsQuery()
   const {mutate: mutateVault} = useVaultMutation()
 
@@ -155,7 +173,8 @@ export default function Home() {
     return <WalletNotConnectedState />
   }
 
-  if (wallet.chain?.id !== 'sui:testnet') {
+  // For wallet connections, check network
+  if (method === 'wallet' && wallet.chain?.id !== 'sui:testnet') {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center text-red-500">
@@ -174,6 +193,9 @@ export default function Home() {
             <p className="text-muted-foreground mt-2">
               Secure storage for your encrypted data
             </p>
+            <p className="text-sm text-muted-foreground">
+              Connected via {method === 'zklogin' ? 'zkLogin' : 'Wallet'}: {address}
+            </p>
           </div>
           <WalletButton />
         </div>
@@ -190,6 +212,9 @@ export default function Home() {
             <h1 className="text-3xl font-bold">My Vaults</h1>
             <p className="text-muted-foreground mt-2">
               Secure storage for your encrypted data
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Connected via {method === 'zklogin' ? 'zkLogin' : 'Wallet'}: {address}
             </p>
           </div>
           <WalletButton />
