@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "/index.html": {
+      "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "no-cache, no-store, must-revalidate",
+      "Document-Policy": "js-profiling"
+    }
+  },
+  "routes": {
+    "/*": "/index.html"
+  },
+  "metadata": {
+      "link": "https://suilocker.wal.app",
+      "description": "SuiLocker: Decentralized, permissionless, SUI-native and fully on-chain vault."
+  },
+  "ignore": []
+}

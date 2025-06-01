@@ -1,6 +1,5 @@
-import {createNetworkConfig, SuiClientProvider, WalletProvider} from '@mysten/dapp-kit'
-import {getFullnodeUrl} from '@mysten/sui/client'
-import {Partytown} from '@qwik.dev/partytown/react'
+// import {Partytown} from '@qwik.dev/partytown/react'
+import { WalletProvider } from "@suiet/wallet-kit";
 import {PersistQueryClientProvider} from '@tanstack/react-query-persist-client'
 import {createRootRouteWithContext, HeadContent} from '@tanstack/react-router'
 import {Provider as JotaiProvider} from 'jotai'
@@ -80,7 +79,7 @@ const DevTool = deepMemo(function DevTool({children}: PropsWithChildren) {
   )
 })
 
-const PARTYTOWN_FORWARD = ['dataLayer.push']
+// const PARTYTOWN_FORWARD = ['dataLayer.push']
 
 const RootRoute = memo(function RootRoute() {
   const {store, queryClient} = useRouteContext({
@@ -93,35 +92,24 @@ const RootRoute = memo(function RootRoute() {
   // eslint-disable-next-line @eslint-react/naming-convention/use-state -- not needed
   const [persistOptions] = useState(() => createQueryPersistOptions())
 
-  const {networkConfig} = useMemo(
-    () =>
-      createNetworkConfig({
-        testnet: {url: getFullnodeUrl('testnet')},
-        mainnet: {url: getFullnodeUrl('mainnet')},
-      }),
-    [],
-  )
-
   return (
     <>
-      <ErrorBoundary fallback={null}>
+      {/* <ErrorBoundary fallback={null}>
         <Partytown debug={DEBUG} forward={PARTYTOWN_FORWARD} />
-      </ErrorBoundary>
+      </ErrorBoundary> */}
       <ErrorBoundary fallbackRender={ErrorBoundaryFallbackRender}>
         <JotaiProvider store={store}>
           <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
             <QueryErrorBoundary>
-              <Global />
               <VisuallyHidden strict {...skipTargetProps('top')} />
-              <HeadContent />
-              <SuiClientProvider networks={networkConfig} defaultNetwork='testnet'>
-                <WalletProvider>
-                  <Outlet />
-                </WalletProvider>
-              </SuiClientProvider>
-              <DevTool>
-                <Inspector />
-              </DevTool>
+              <WalletProvider>
+                <HeadContent />
+                <Global />
+                <Outlet />
+                <DevTool>
+                  <Inspector />
+                </DevTool>
+              </WalletProvider>
             </QueryErrorBoundary>
             <DevTool>
               <ReactQueryDevtools initialIsOpen={false} />

@@ -21,11 +21,8 @@ body {
 
 /* END fix */
 
-$Foreground: red;
-$Primary: blue;
-
 * {
-  outline-color: $Primary;
+  outline-color: var(--background);
 }
 
 .visually-hidden:not(:focus, :active, :focus-within),
@@ -45,10 +42,10 @@ $Primary: blue;
   border-end-start-radius: 0.5rem;
   border-end-end-radius: 0.5rem;
 
-  color: $Foreground;
+  color: var(--foreground);
   text-decoration: none;
 
-  background-color: $Primary;
+  background-color: var(--background);
 }
 
 [data-disabled='true'] {

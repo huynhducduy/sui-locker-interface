@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url'
 
 import {paraglideVitePlugin} from '@inlang/paraglide-js'
 import {vite as millionLintVite} from '@million/lint'
-import {partytownVite} from '@qwik.dev/partytown/utils'
+// import {partytownVite} from '@qwik.dev/partytown/utils'
 import pluginOptimizeLocales from '@react-aria/optimize-locales-plugin'
 import {inspectorServer} from '@react-dev-inspector/vite-plugin'
 import replace from '@rollup/plugin-replace'
@@ -94,6 +94,15 @@ export function getConfig(mode: string): UserConfig {
   }
   if (!process.env.VITE_APP_DESCRIPTION) {
     throw new Error('VITE_APP_DESCRIPTION is required')
+  }
+  if (!process.env.VITE_SUI_LOCKER_PACKAGE_ID) {
+    throw new Error('VITE_SUI_LOCKER_PACKAGE_ID is required')
+  }
+  if (!process.env.VITE_SUI_LOCKER_GLOBAL_STATE_ID) {
+    throw new Error('VITE_SUI_LOCKER_GLOBAL_STATE_ID is required')
+  }
+  if (!process.env.VITE_SUI_NETWORK) {
+    throw new Error('VITE_SUI_NETWORK is required')
   }
 
   const inTestOrDevMode = ['test', 'benchmark', 'development'].includes(mode)
@@ -314,7 +323,7 @@ export function getConfig(mode: string): UserConfig {
     tsconfigPaths({
       projects: ['./tsconfig.json'],
     }),
-    partytownVite({dest: path.join(__dirname, 'dist', '~partytown')}),
+    // partytownVite({dest: path.join(__dirname, 'dist', '~partytown')}),
     isDevMode &&
       turboConsole({
         /* options here */

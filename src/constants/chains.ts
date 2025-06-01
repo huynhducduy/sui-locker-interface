@@ -1,16 +1,25 @@
-export const DEFAULT_CHAIN_ID: StarknetChainId = ''
+/**
+ * Supported blockchain chains for the SuiLocker interface
+ * Currently placeholder values for future blockchain integration
+ */
 
-export const SUPPORTED_CHAINS: {chainId: StarknetChainId; name: string}[] = [
+export const DEFAULT_CHAIN_ID: string = 'localhost'
+
+export const SUPPORTED_CHAINS: {chainId: string; name: string}[] = [
+  {
+    chainId: 'localhost',
+    name: 'Local Development',
+  },
+  // Future blockchain chains will be added here
   // {
-  //   chainId: StarknetChainId.SN_MAIN,
+  //   chainId: 'mainnet',
   //   name: 'Mainnet',
   // },
-  // {chainId: StarknetChainId.SN_SEPOLIA, name: 'Sepolia'},
-  // {chainId: StarknetChainId.SN_KATANA, name: 'Katana'},
+  // {chainId: 'testnet', name: 'Testnet'},
 ] as const
 
 export const SUPPORTED_CHAIN_IDS = SUPPORTED_CHAINS.map(chain => chain.chainId)
 
-export function isChainIdSupported(chainId: unknown): chainId is StarknetChainId {
-  return SUPPORTED_CHAIN_IDS.includes(chainId as StarknetChainId)
+export function isChainIdSupported(chainId: unknown): chainId is string {
+  return SUPPORTED_CHAIN_IDS.includes(chainId as string)
 }

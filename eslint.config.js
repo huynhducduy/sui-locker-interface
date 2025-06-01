@@ -417,14 +417,14 @@ function getCoreConfigs() {
         ],
       },
     }),
-    ...applyTo.script('core/jsdoc', pluginJsdoc.configs['flat/recommended-error']),
-    ...applyTo.script('core/jsdoc/custom', {
-      rules: {
-        // NOTE: remove this if you are authoring a library
-        'jsdoc/require-jsdoc': 'off',
-        'jsdoc/tag-lines': ['error', 'any', {startLines: 1}],
-      },
-    }),
+    // ...applyTo.script('core/jsdoc', pluginJsdoc.configs['flat/recommended-error']),
+    // ...applyTo.script('core/jsdoc/custom', {
+    //   rules: {
+    //     // NOTE: remove this if you are authoring a library
+    //     'jsdoc/require-jsdoc': 'off',
+    //     'jsdoc/tag-lines': ['error', 'any', {startLines: 1}],
+    //   },
+    // }),
     // TODO: enable for new projects
     // ...applyTo.all('core/unicorn', pluginUnicorn.configs['flat/recommended']),
     // ...applyTo.all('core/unicorn/custom', {
@@ -595,20 +595,20 @@ function getTypescriptConfigs() {
         '@typescript-eslint/no-floating-promises': 'off', // lag
       },
     }),
-    ...applyTo.typescript('typescript/tsdoc', {
-      plugins: {tsdoc: pluginTsDoc},
-      rules: {'tsdoc/syntax': 'error'},
-    }),
-    ...applyTo.typescript(
-      'typescript/jsdoc',
-      pluginJsdoc.configs['flat/recommended-typescript-error'],
-    ),
-    ...applyTo.script('typescript/jsdoc/custom', {
-      rules: {
-        // NOTE: remove this if you are authoring a library
-        'jsdoc/require-jsdoc': 'off',
-      },
-    }),
+    // ...applyTo.typescript('typescript/tsdoc', {
+    //   plugins: {tsdoc: pluginTsDoc},
+    //   rules: {'tsdoc/syntax': 'error'},
+    // }),
+    // ...applyTo.typescript(
+    //   'typescript/jsdoc',
+    //   pluginJsdoc.configs['flat/recommended-typescript-error'],
+    // ),
+    // ...applyTo.script('typescript/jsdoc/custom', {
+    //   rules: {
+    //     // NOTE: remove this if you are authoring a library
+    //     'jsdoc/require-jsdoc': 'off',
+    //   },
+    // }),
   ]
 }
 
@@ -722,19 +722,19 @@ function getReactConfigs() {
       rules: {
         'react-perf/jsx-no-new-object-as-prop': [
           'error',
-          {nativeAllowList: 'all', ignoreSources: []},
+          {nativeAllowList: 'all', ignoreSources: ['@tanstack/react-router']},
         ],
         'react-perf/jsx-no-new-array-as-prop': [
           'error',
-          {nativeAllowList: 'all', ignoreSources: []},
+          {nativeAllowList: 'all', ignoreSources: ['@tanstack/react-router']},
         ],
         'react-perf/jsx-no-new-function-as-prop': [
           'error',
-          {nativeAllowList: 'all', ignoreSources: []},
+          {nativeAllowList: 'all', ignoreSources: ['@tanstack/react-router']},
         ],
         'react-perf/jsx-no-jsx-as-prop': [
           'error',
-          {nativeAllowList: 'all', ignoreSources: []},
+          {nativeAllowList: 'all', ignoreSources: ['@tanstack/react-router']},
         ],
       },
     }),

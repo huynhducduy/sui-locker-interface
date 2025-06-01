@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as VaultVaultIdImport } from './routes/vault.$vaultId'
 
 // Create/Update Routes
 
@@ -20,6 +21,12 @@ const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const VaultVaultIdRoute = VaultVaultIdImport.update({
+  id: '/vault/$vaultId',
+  path: '/vault/$vaultId',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -32,6 +39,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/vault/$vaultId': {
+      id: '/vault/$vaultId'
+      path: '/vault/$vaultId'
+      fullPath: '/vault/$vaultId'
+      preLoaderRoute: typeof VaultVaultIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -39,32 +53,37 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/vault/$vaultId': typeof VaultVaultIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/vault/$vaultId': typeof VaultVaultIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/vault/$vaultId': typeof VaultVaultIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/vault/$vaultId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/vault/$vaultId'
+  id: '__root__' | '/' | '/vault/$vaultId'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  VaultVaultIdRoute: typeof VaultVaultIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  VaultVaultIdRoute: VaultVaultIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -77,11 +96,15 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/vault/$vaultId"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/vault/$vaultId": {
+      "filePath": "vault.$vaultId.tsx"
     }
   }
 }

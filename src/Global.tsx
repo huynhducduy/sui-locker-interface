@@ -1,9 +1,9 @@
-import '@mysten/dapp-kit/dist/index.css';
+import "@suiet/wallet-kit/style.css"
 
 import {announce} from '@react-aria/live-announcer'
 import {addIntegration, tanstackRouterBrowserTracingIntegration} from '@sentry/react'
 
-import Toaster from '@/components/Toaster'
+import { Toaster } from "@/components/ui/sonner"
 import {loadSentryIntegrations} from '@/instrument'
 import Head from '@/lib/head/Head'
 import ThemeEffects from '@/lib/theme/ThemeEffects'
@@ -11,6 +11,7 @@ import {setupDapp, teardownDapp} from '@/setupDapp'
 import RouteAnnouncer from '@/utils/router/RouteAnnouncer'
 
 import {DEBUG} from './constants/config'
+import SetupLockerKeyEffects from "./lib/locker/SetupLockerKeyEffect"
 
 export default memo(function Global() {
   const router = useRouter()
@@ -42,6 +43,7 @@ export default memo(function Global() {
       <Head />
       <Toaster />
       <ThemeEffects />
+      <SetupLockerKeyEffects/>
     </>
   )
 })

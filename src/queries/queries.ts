@@ -15,6 +15,7 @@ import {parse, stringify} from 'devalue'
 import {compress as compressString, decompress as decompressString} from 'smol-string'
 
 import {APP_NAME, COMMIT_HASH} from '@/constants/config'
+import { SUI_LOCKER_CONFIG } from '@/constants/sui'
 import {isPermanentError} from '@/utils/errors/MaybePermanentError'
 
 const RETRY_COUNT = 3
@@ -102,6 +103,6 @@ export function createQueryPersistOptions(): OmitKeyof<PersistQueryClientOptions
         return !!meta.persist
       },
     },
-    buster: COMMIT_HASH,
+    buster: COMMIT_HASH + SUI_LOCKER_CONFIG.PACKAGE_ID,
   }
 }
