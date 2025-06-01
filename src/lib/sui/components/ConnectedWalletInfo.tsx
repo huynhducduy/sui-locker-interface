@@ -1,4 +1,5 @@
 import { useWallet } from "@suiet/wallet-kit"
+import { useNavigate } from "@tanstack/react-router"
 import {User, Wallet, X} from 'lucide-react'
 
 import {Button} from '@/components/ui/button'
@@ -13,12 +14,15 @@ import useUserStatsQuery from "@/lib/locker/hooks/useUserStatsQuery"
 
 export default function ConnectedWalletInfo() {
   const wallet = useWallet()
+  const navigate = useNavigate()
   const address = wallet.address
   const {data: userStats} = useUserStatsQuery()
 
   const handleDisconnect = useCallback(() => {
     wallet.disconnect()
-  }, [wallet])
+    // Redirect to home after disconnection
+    navigate({ to: '/' })
+  }, [wallet, navigate])
 
   if (!address) {
     return null
